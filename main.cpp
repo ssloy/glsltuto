@@ -6,20 +6,38 @@
 #include <vector>
 #include <cmath>
 
-#define USE_SHADERS 1
+#define USE_SHADERS 0
 GLuint  prog_hdlr;
 
+const int NATOMS        = 10000;
 const int SCREEN_WIDTH  = 1024;
 const int SCREEN_HEIGHT = 1024;
 const float camera[]           = {.6,0,1};
 const float light0_position[4] = {1,1,1,0};
+std::vector<std::vector<float> > atoms;
+
+float rand_minus_one_one() {
+	return (float)rand()/(float)RAND_MAX*(rand()>RAND_MAX/2?1:-1);
+}
+
+float rand_zero_one() {
+	return (float)rand()/(float)RAND_MAX;
+}
+
 
 void render_scene(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	gluLookAt(camera[0], camera[1], camera[2], 0,  0, 0, 0, 1, 0);
-	glColor3f(.8, 0., 0.);
-	glutSolidTeapot(.7);
+
+	for (int i=0; i<NATOMS; i++) {
+		glColor3f(atoms[i][4], atoms[i][5], atoms[i][6]);
+		glPushMatrix();
+		glTranslatef(atoms[i][0], atoms[i][1], atoms[i][2]);
+		glutSolidSphere(atoms[i][3], 16, 16);
+		glPopMatrix();
+	}
+
 	glutSwapBuffers();
 }
 
@@ -88,6 +106,18 @@ void setShaders(GLuint &prog_hdlr, const char *vsfile, const char *fsfile) {
 
 
 int main(int argc, char **argv) {
+	for (int i=0; i<NATOMS; i++) {
+		std::vector<float> tmp;
+		for (int c=0; c<3; c++) {
+			tmp.push_back(rand_minus_one_one()/2);      // xyz
+		}
+		tmp.push_back(rand_zero_one()/8.0); // radius
+		for (int c=0; c<3; c++) {
+			tmp.push_back(rand_zero_one()); // rgb
+		}
+		atoms.push_back(tmp);
+	}
+
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowPosition(100,100);
