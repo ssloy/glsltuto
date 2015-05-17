@@ -11,7 +11,7 @@
 GLuint  prog_hdlr;
 GLint location_attribute_0, location_viewport;
 
-const int NATOMS        = 10000;
+const int NATOMS        = 1000;
 const int SCREEN_WIDTH  = 1024;
 const int SCREEN_HEIGHT = 1024;
 const float camera[]           = {.6,0,1};
@@ -73,11 +73,13 @@ void process_keys(unsigned char key, int x, int y) {
 }
 
 void change_size(int w, int h) {
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
+    float ratio = (1.0*w)/(!h?1:h);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(90, ratio, 1e-5, 100);
+//    glOrtho(-1,1,-1,1,-2,2);
+    glMatrixMode(GL_MODELVIEW);
     glViewport(0, 0, w, h);
-	glOrtho(-1,1,-1,1,-2,2);
-	glMatrixMode(GL_MODELVIEW);
 }
 
 #if !RENDER_SPHERES_INSTEAD_OF_VERTICES
@@ -173,7 +175,7 @@ int main(int argc, char **argv) {
 	}
 	setShaders(prog_hdlr, "shaders/vert_shader.glsl", "shaders/frag_shader.glsl");
 
-	location_attribute_0   = glGetAttribLocation(prog_hdlr, "radius_attr");          // radius
+	location_attribute_0   = glGetAttribLocation(prog_hdlr, "R");          // radius
 	location_viewport = glGetUniformLocation(prog_hdlr, "viewport"); // viewport
 
 	glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
