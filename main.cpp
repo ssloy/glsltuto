@@ -76,7 +76,7 @@ void change_size(int w, int h) {
     float ratio = (1.0*w)/(!h?1:h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(90, ratio, 1e-5, 100);
+    gluPerspective(90, ratio, .1, 100);
 //    glOrtho(-1,1,-1,1,-2,2);
     glMatrixMode(GL_MODELVIEW);
     glViewport(0, 0, w, h);

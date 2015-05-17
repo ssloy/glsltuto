@@ -3,6 +3,8 @@
 uniform vec4 viewport;
 attribute float R;
 
+varying mat4 VPMTInverse;
+
 void main() {
     gl_Position   = gl_ModelViewProjectionMatrix * gl_Vertex;
     gl_FrontColor = gl_Color;
@@ -29,8 +31,23 @@ void main() {
 
     float discriminant_x = r1Dr4T*r1Dr4T-r4Dr4T*r1Dr1T;
     float discriminant_y = r2Dr4T*r2Dr4T-r4Dr4T*r2Dr2T;
-    float screen = max(float(viewport[2]), float(viewport[3]));
+    float screen = max(float(viewport.z), float(viewport.w));
 
-    gl_PointSize = sqrt(discriminant_x>discriminant_y?discriminant_x:discriminant_y)*screen/(-r4Dr4T);
+    gl_PointSize = sqrt(max(discriminant_x, discriminant_y))*screen/(-r4Dr4T);
+
+
+    // prepare varyings
+
+    mat4 TInverse = mat4(
+            1.0,          0.0,          0.0,         0.0,
+            0.0,          1.0,          0.0,         0.0,
+            0.0,          0.0,          1.0,         0.0,
+            -gl_Vertex.x, -gl_Vertex.y, -gl_Vertex.z, R);
+    mat4 VInverse = mat4( // TODO: move this one to CPU
+            2.0/float(viewport.z), 0.0, 0.0, 0.0,
+            0.0, 2.0/float(viewport.w), 0.0, 0.0,
+            0.0, 0.0,                   2.0/gl_DepthRange.diff, 0.0,
+            -float(viewport.z+2.0*viewport.x)/float(viewport.z), -float(viewport.w+2.0*viewport.y)/float(viewport.w), -(gl_DepthRange.near+gl_DepthRange.far)/gl_DepthRange.diff, 1.0);
+    VPMTInverse = TInverse*gl_ModelViewProjectionMatrixInverse*VInverse;
 }
 
