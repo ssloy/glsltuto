@@ -4,6 +4,8 @@ uniform vec4 viewport;
 attribute float R;
 
 varying mat4 VPMTInverse;
+varying mat4 VPInverse;
+varying vec3 centernormclip;
 
 void main() {
     gl_Position   = gl_ModelViewProjectionMatrix * gl_Vertex;
@@ -49,5 +51,8 @@ void main() {
             0.0, 0.0,                   2.0/gl_DepthRange.diff, 0.0,
             -float(viewport.z+2.0*viewport.x)/float(viewport.z), -float(viewport.w+2.0*viewport.y)/float(viewport.w), -(gl_DepthRange.near+gl_DepthRange.far)/gl_DepthRange.diff, 1.0);
     VPMTInverse = TInverse*gl_ModelViewProjectionMatrixInverse*VInverse;
+    VPInverse = gl_ProjectionMatrixInverse*VInverse; // TODO: move to CPU
+    vec4 centerclip = gl_ModelViewMatrix*gl_Vertex;
+    centernormclip = vec3(centerclip)/centerclip.w;
 }
 
