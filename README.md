@@ -40,7 +40,7 @@ Finally we should get the following picture:
 [Here](https://github.com/ssloy/glsltuto/tree/ebc9594a594bcedd7e91a5880bfef8e25ba81044) you can find source code of the simplest use of shaders. Github is really handy to see the changes between versions, compare what was [actually changed](https://github.com/ssloy/glsltuto/commit/ebc9594a594bcedd7e91a5880bfef8e25ba81044).
 
 The image we should get is the following one:
-[](https://habrastorage.org/getpro/habr/post_images/ec8/be3/fe5/ec8be3fe50ec9258ad9bd5bb328c4c8e.png)
+![](https://habrastorage.org/getpro/habr/post_images/ec8/be3/fe5/ec8be3fe50ec9258ad9bd5bb328c4c8e.png)
 
 What were the changes? First, I added two new files: frag_shader.glsl and vert_shader.glsl, written not in C++, but in [GLSL](http://en.wikipedia.org/wiki/OpenGL_Shading_Language). Those are our shaders, that we feed to the GPU. In main.cpp we added necessary wrapping code telling the GPU to use these shaders.
 
