@@ -99,7 +99,7 @@ Quite an improvement for quality, is not it? And as a bonus a better performance
 
 # Well, glOrtho is good, but what about perspective projection?
 
-For those who would like to implement the idea in perspective projection, there is a nice article ![here](http://reality.cs.ucl.ac.uk/projects/quadrics/pbg06.pdf). The source code is available in the repository, for the comments refer to the paper. Here I put the images of the process (all clickable).
+For those who would like to implement the idea in perspective projection, there is a nice article [here](http://reality.cs.ucl.ac.uk/projects/quadrics/pbg06.pdf). The source code is available in the repository, for the comments refer to the paper. Here I put the images of the process (all clickable).
 
 Triangulated spheres for debug purposes:
 [![](https://raw.githubusercontent.com/ssloy/glsltuto/master/shots/glut_spheres.png)](https://raw.githubusercontent.com/ssloy/glsltuto/master/shots/glut_spheres.png)
